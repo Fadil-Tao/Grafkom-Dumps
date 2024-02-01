@@ -55,7 +55,14 @@ function DDA(imageData, x1, x2, y1, y2, r, g, b) {
 }
 
 
+function cerminCekung(imageData, xc, yc, radiusX, radiusY, r, g, b) {
+  for (let theta = 0; theta < Math.PI * 2; theta += 0.0001) {
+    const x = xc + radiusX * Math.cos(theta / 4 - (1/4) * Math.PI );
+    const y = yc + radiusY * Math.sin(theta / 4 - (1/4) * Math.PI );
 
+    DrawLine(imageData, Math.ceil(x), Math.ceil(y), r, g, b);
+  }
+}
 
 
 // Garis X yang warna kuning dari ujung ke ujung
@@ -63,7 +70,7 @@ DDA(imageData, 0, 300, 100, 100, 235, 235, 122);
 // Garis titik fokus yang warna putih
 DDA(imageData,120,120,95,105,255,255,255)
 // Garis titik jari jari yang warna biru
-
+DDA(imageData,70,70,95,105,0,0,255)
 
 cerminCekung(imageData, 100, 100, 50, 50, 110, 110, 110);
 
