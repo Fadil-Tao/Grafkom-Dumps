@@ -1,6 +1,19 @@
-#myCanvas{
-    border: solid 1px;
-    height: 100%;
-    width: 100%;
-    border-color:rgb(11, 11, 11);
+#myCanvas {
+  border: solid 1px;
+  height: 100%;
+  width: 100%;
+  border-color: rgb(11, 11, 11);
 }
+
+.inputs {
+  display: flex;
+  position: absolute;
+  background: rgba(13, 91, 255, 0.12);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(2.8px);
+  -webkit-backdrop-filter: blur(2.8px);
+  border: 1px solid rgba(13, 91, 255, 0.22);
+}
+
+

@@ -1,16 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="./style/style.css">
-</head>
+    <link rel="stylesheet" href="./style/style.css" />
+  </head>
 
-<body>
+  <body>
+    <div class="inputs" id="inputUi">
+      <div class="tinggiObjek">
+        <label for="tinggiObjek">Tinggi Objek</label>
+        <input
+          type="range"
+          name="tinggiObjek"
+          id="tinggiObjek"
+          min="10"
+          max="300"
+        />
+        <p id="tinggiObjekValue">100</p>
+      </div>
+      <div>
+        <div class="jarakBenda">
+          <label for="jarakBenda">Jarak Benda</label>
+          <input
+            type="range"
+            name="jarakBenda"
+            id="jarakBenda"
+            min="10"
+            max="300"
+          />
+          <p id="jarakBendaValue">100</p>
+        </div>
+        <div class="jarakFokus">
+          <label for="jarakFokus">Jarak Fokus</label>
+          <input
+            type="range"
+            name="jarakFokus"
+            id="jarakFokus"
+            min="10"
+            max="300"
+          />
+          <p id="jarakFokusValue">100</p>
+        </div>
+      </div>
+    </div>
     <canvas id="myCanvas" width="800" height="400"></canvas>
     <script src="./script/script.js"></script>
-</body>
-
+    <script src="./script/Ui.js"></script>
+  </body>
 </html>
