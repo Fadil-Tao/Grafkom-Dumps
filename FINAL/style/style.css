@@ -1,7 +1,7 @@
-body{
-display: flex;
-align-items: center;
-justify-content: center;
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #myCanvas {
@@ -9,6 +9,11 @@ justify-content: center;
   height: 100%;
   width: 100%;
   border-color: rgb(11, 11, 11);
+
+  background: #ffffff;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.10) 0.1em, transparent 0.1em),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.10) 0.1em, transparent 0.1em);
+  background-size: 4em 4em;
 }
 
 .inputs {
@@ -21,5 +26,3 @@ justify-content: center;
   -webkit-backdrop-filter: blur(2.8px);
   border: 1px solid rgba(13, 91, 255, 0.22);
 }
-
-
