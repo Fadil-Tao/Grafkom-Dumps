@@ -22,16 +22,59 @@ let jarakFokusInput = JarakFokus.value;
 TinggiObjek.addEventListener("input", () => {
     tinggiBendaInput = TinggiObjek.value;
     tinggiObjekValue.textContent = TinggiObjek.value;
+    koorTinggiBenda.y = CanvasMiddleY - tinggiBendaInput;
+
+    let si = 1 / ((1 / jarakFokusInput) - (1 / jarakBendaInput));
+    const m = Math.abs(si / jarakBendaInput);
+
+    if (jarakBendaInput > jarakFokusInput) {
+        koorJarakBayangan.x = CanvasMiddleX - si;
+        koorJarakBayangan.y = CanvasMiddleY;
+
+        koorTinggiBayangan.x = CanvasMiddleX - si;
+        koorTinggiBayangan.y = (m * tinggiBendaInput) + CanvasMiddleY;
+    }
+
+    refreshDraw();
 });
 
 JarakBenda.addEventListener("input", () => {
     jarakBendaInput = JarakBenda.value;
     jarakBendaValue.textContent = JarakBenda.value;
+    koorTinggiBenda.x = CanvasMiddleX - jarakBendaInput;
+    koorJarakBenda.x = CanvasMiddleX - jarakBendaInput;
+
+    let si = 1 / ((1 / jarakFokusInput) - (1 / jarakBendaInput));
+    const m = Math.abs(si / jarakBendaInput);
+
+    if (jarakBendaInput > jarakFokusInput) {
+        koorJarakBayangan.x = CanvasMiddleX - si;
+        koorJarakBayangan.y = CanvasMiddleY;
+
+        koorTinggiBayangan.x = CanvasMiddleX - si;
+        koorTinggiBayangan.y = (m * tinggiBendaInput) + CanvasMiddleY;
+    }
+
+    refreshDraw();
 });
 
 JarakFokus.addEventListener("input", () => {
     jarakFokusInput = JarakFokus.value;
     jarakFokusValue.textContent = JarakFokus.value;
+    titikFokus.x = CanvasMiddleX - jarakFokusInput;
+
+    let si = 1 / ((1 / jarakFokusInput) - (1 / jarakBendaInput));
+    const m = Math.abs(si / jarakBendaInput);
+
+    if (jarakBendaInput > jarakFokusInput) {
+        koorJarakBayangan.x = CanvasMiddleX - si;
+        koorJarakBayangan.y = CanvasMiddleY;
+
+        koorTinggiBayangan.x = CanvasMiddleX - si;
+        koorTinggiBayangan.y = (m * tinggiBendaInput) + CanvasMiddleY;
+    }
+
+    refreshDraw();
 });
 
 // Real Input Kordinat
@@ -59,9 +102,10 @@ const m = Math.abs(si / jarakBendaInput);
 if (jarakBendaInput > jarakFokusInput) {
     koorJarakBayangan.x = CanvasMiddleX - si;
     koorJarakBayangan.y = CanvasMiddleY;
-
     koorTinggiBayangan.x = CanvasMiddleX - si;
     koorTinggiBayangan.y = (m * tinggiBendaInput) + CanvasMiddleY;
+
+    console.log(koorTinggiBayangan, koorJarakBayangan);
 }
 
 // Drawing
@@ -81,23 +125,14 @@ function drawPixel(x, y, colour = "black") {
 }
 
 function garisDDA(x1, y1, x2, y2, colour) {
-    if (x1 > x2 || y1 > y2) {
-        let temp = { "x": x1, "y": y1 };
-        x1 = x2;
-        x2 = temp.x;
-
-        y1 = y2;
-        y2 = temp.y;
-    }
-
     let dx = x2 - x1;
     let dy = y2 - y1;
     let step = 0;
 
     if (Math.abs(dx) > Math.abs(dy)) {
-        step = dx;
+        step = Math.abs(dx);
     } else {
-        step = dy;
+        step = Math.abs(dy);
     }
 
     let x_inc = dx / step;
@@ -237,10 +272,10 @@ const cahayaOranye = (nyata) => {
         );
         // Pantulan
         garisDDA(
-            getX(Xpantul, Ypantul, koorTinggiBayangan.x, koorTinggiBayangan.y, CANVAS.height),
-            CANVAS.height,
             Xpantul,
             Ypantul,
+            getX(Xpantul, Ypantul, koorTinggiBayangan.x, koorTinggiBayangan.y, CANVAS.height),
+            CANVAS.height,
             "orange"
         );
     } else {
@@ -265,7 +300,13 @@ function cahayaDatang() {
         // Oranye
         cahayaOranye(true);
     }
+}
 
+function refreshDraw() {
+    ctx.clearRect(0, 0, CANVAS.width, CANVAS.height);
+    MainCrossline();
+    initInput();
+    cahayaDatang();
 }
 
 // Run
