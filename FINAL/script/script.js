@@ -193,20 +193,34 @@ function MainCrossline() {
 // Garis benda dan titik fokus
 function initInput() {
     refreshBayangan();
-    // Jarak Fokus
+    // Titik Fokus
     garisDDA(
         titikFokus.x,
-        titikFokus.y - 3,
+        titikFokus.y - 5,
         titikFokus.x,
-        titikFokus.y + 3,
+        titikFokus.y + 5,
         "red"
     );
-    // R ( 2 x Jarak Fokus)
+    garisDDA(
+        titikFokus.x + 1,
+        titikFokus.y - 5,
+        titikFokus.x + 1,
+        titikFokus.y + 5,
+        "red"
+    );
+    // R ( 2 x Titik Fokus)
     garisDDA(
         titikFokus.x - jarakFokusInput,
-        titikFokus.y - 3,
+        titikFokus.y - 5,
         titikFokus.x - jarakFokusInput,
-        titikFokus.y + 3,
+        titikFokus.y + 5,
+        "red"
+    );
+    garisDDA(
+        titikFokus.x - jarakFokusInput,
+        titikFokus.y - 5,
+        titikFokus.x - jarakFokusInput,
+        titikFokus.y + 5,
         "red"
     );
     // Benda

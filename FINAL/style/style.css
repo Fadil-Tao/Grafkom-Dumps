@@ -20,10 +20,17 @@ body {
 .inputs {
   display: flex;
   position: absolute;
+  top: 70%;
+  left: 65%;
   background: rgba(13, 91, 255, 0.12);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(2.8px);
   -webkit-backdrop-filter: blur(2.8px);
   border: 1px solid rgba(13, 91, 255, 0.22);
+}
+.judul{
+  position: absolute;
+  top: 0;
+  left: 46%;
 }
