@@ -295,7 +295,7 @@ const cahayaHijau = (nyata) => {
         garisDash(
             Xpantul,
             Ypantul,
-            koorTinggiBayangan.x,
+            CanvasMiddleX * 2,
             koorTinggiBayangan.y,
             "green"
         );

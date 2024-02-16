@@ -10,10 +10,11 @@ body {
   width: 100%;
   border-color: rgb(11, 11, 11);
 
+  /* Grid Koordinat */
   background: #ffffff;
   background-image: linear-gradient(rgba(0, 0, 0, 0.10) 0.1em, transparent 0.1em),
     linear-gradient(90deg, rgba(0, 0, 0, 0.10) 0.1em, transparent 0.1em);
-  background-size: 4em 4em;
+  background-size: 4.27em 4.27em;
 }
 
 .inputs {
