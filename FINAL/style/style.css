@@ -1,7 +1,7 @@
-body{
-display: flex;
-align-items: center;
-justify-content: center;
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #myCanvas {
@@ -9,11 +9,19 @@ justify-content: center;
   height: 100%;
   width: 100%;
   border-color: rgb(11, 11, 11);
+
+  /* Grid Koordinat */
+  background: #ffffff;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.10) 0.1em, transparent 0.1em),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.10) 0.1em, transparent 0.1em);
+  background-size: 4.27em 4.27em;
 }
 
 .inputs {
   display: flex;
   position: absolute;
+  top: 70%;
+  left: 65%;
   background: rgba(13, 91, 255, 0.12);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -21,5 +29,8 @@ justify-content: center;
   -webkit-backdrop-filter: blur(2.8px);
   border: 1px solid rgba(13, 91, 255, 0.22);
 }
-
-
+.judul{
+  position: absolute;
+  top: 0;
+  left: 46%;
+}
