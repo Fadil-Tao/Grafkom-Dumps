@@ -81,8 +81,13 @@ function refreshBayangan() {
         koorJarakBayangan.y = CanvasMiddleY;
         koorTinggiBayangan.x = CanvasMiddleX - si;
         koorTinggiBayangan.y = CanvasMiddleY + (m * tinggiBendaInput);
-    } else {
+    } else if (jarakBendaInput < jarakFokusInput) {
         koorJarakBayangan.x = CanvasMiddleX + Math.abs(si);
+        koorJarakBayangan.y = CanvasMiddleY;
+        koorTinggiBayangan.x = CanvasMiddleX + Math.abs(si);
+        koorTinggiBayangan.y = CanvasMiddleY - (m * tinggiBendaInput);
+    } else {
+        koorJarakBayangan.x = 86456;
         koorJarakBayangan.y = CanvasMiddleY;
         koorTinggiBayangan.x = CanvasMiddleX + Math.abs(si);
         koorTinggiBayangan.y = CanvasMiddleY - (m * tinggiBendaInput);
@@ -95,11 +100,13 @@ function drawPixel(x, y, colour = "black") {
         ctx.fillStyle = "blue";
     } else if (colour == "red") {
         ctx.fillStyle = "red";
-    } else if (colour == "orange") {
-        ctx.fillStyle = "#FF4900";
+    } else if (colour == "purple") {
+        ctx.fillStyle = "#FF00FF";
     } else if (colour == "green") {
         ctx.fillStyle = "green";
-    } else {
+    } else if (colour == "badBlue") {
+        ctx.fillStyle = "#00008B";
+    }else {
         ctx.fillStyle = "black";
     }
     ctx.fillRect(x, y, 1.3, 1.3);
@@ -257,6 +264,7 @@ const cahayaMerah = (nyata) => {
         getY(koorTinggiBayangan.x, koorTinggiBayangan.y, CanvasMiddleX, CanvasMiddleY, 0),
         "red"
     );
+    // Ruang 4
     if (!nyata) {
         garisDash(
             CanvasMiddleX,
@@ -289,6 +297,7 @@ const cahayaHijau = (nyata) => {
             getY(koorTinggiBayangan.x, koorTinggiBayangan.y, Xpantul, Ypantul, 0),
             "green"
         );
+    // Ruang 4
     } else {
         Xpantul = CanvasMiddleX;
         Ypantul = koorTinggiBayangan.y;
@@ -316,7 +325,7 @@ const cahayaHijau = (nyata) => {
     }
 }
 
-const cahayaOranye = (nyata) => {
+const cahayaUngu = (nyata) => {
     const Xpantul = CanvasMiddleX;
     const Ypantul = koorTinggiBenda.y;
 
@@ -325,7 +334,7 @@ const cahayaOranye = (nyata) => {
         koorTinggiBenda.y,
         Xpantul,
         Ypantul,
-        "orange"
+        "purple"
     );
     // Pantulan
     garisDDA(
@@ -333,35 +342,56 @@ const cahayaOranye = (nyata) => {
         Ypantul,
         getX(Xpantul, Ypantul, koorTinggiBayangan.x, koorTinggiBayangan.y, CANVAS.height),
         CANVAS.height,
-        "orange"
+        "purple"
     );
-
+    // Ruang 4
     if (!nyata) {
         garisDash(
             Xpantul,
             Ypantul,
             getX(koorTinggiBayangan.x, koorTinggiBayangan.y, Xpantul, Ypantul, 0),
             0,
-            "orange"
+            "purple"
         );
     }
 }
 
+function Lingkaran(xc, yc, radius, terbalik, theta, maxTheta = Math.PI * 2) {
+    if (!terbalik) {
+        while (theta <= maxTheta) {
+            let xi = xc + radius * Math.cos(theta);
+            let yi = yc + radius * Math.sin(theta);
+            drawPixel(xi, yi, "badBlue");
+            theta += 0.003;
+        }
+    } else {
+        while (theta <= maxTheta) {
+            let xi = xc + radius * Math.cos(theta);
+            let yi = yc - radius * Math.sin(theta);
+            drawPixel(xi, yi, "badBlue");
+            theta += 0.003;
+        }
+    }
+
+}
 function cahayaDatang() {
-    if (jarakBendaInput < jarakFokusInput) {
+    if (jarakBendaInput <= jarakFokusInput) {
         // Merah
         cahayaMerah(false);
-        // Hijau
-        cahayaHijau(false);
         // Oranye
-        cahayaOranye(false);
+        cahayaUngu(false);
+        if (jarakBendaInput != jarakFokusInput) {
+            // Hijau
+            cahayaHijau(false);
+        }
+    // Ruang 4
     } else {
         // Merah
         cahayaMerah(true);
         // Hijau
         cahayaHijau(true);
         // Oranye
-        cahayaOranye(true);
+        cahayaUngu(true);
     }
 }
 
@@ -370,7 +400,10 @@ function refreshDraw() {
     MainCrossline();
     initInput();
     cahayaDatang();
+    // Cermin
+    Lingkaran(CanvasMiddleX - jarakFokusInput * 2, CanvasMiddleY, jarakFokusInput * 2, false, 0, 0.600);
+    Lingkaran(CanvasMiddleX - jarakFokusInput * 2, CanvasMiddleY, jarakFokusInput * 2, true, 0, 0.600);
 }
 
-// Run
+// Initiate
 refreshDraw();
