@@ -67,31 +67,183 @@ const koorJarakBenda = {
 // Real Bayangan
 const koorTinggiBayangan = {};
 const koorJarakBayangan = {};
-let si = 0;
+let bayanganInput = 0;
 let m = 0;
 
 function refreshBayangan() {
     if (jarakFokusInput != jarakBendaInput) {
-        si = 1 / ((1 / jarakFokusInput) - (1 / jarakBendaInput));
-        m = Math.abs(si / jarakBendaInput);
+        bayanganInput = 1 / ((1 / jarakFokusInput) - (1 / jarakBendaInput));
+        m = Math.abs(bayanganInput / jarakBendaInput);
     }
 
     if (jarakBendaInput > jarakFokusInput) {
-        koorJarakBayangan.x = CanvasMiddleX - si;
+        koorJarakBayangan.x = CanvasMiddleX - bayanganInput;
         koorJarakBayangan.y = CanvasMiddleY;
-        koorTinggiBayangan.x = CanvasMiddleX - si;
+        koorTinggiBayangan.x = CanvasMiddleX - bayanganInput;
         koorTinggiBayangan.y = CanvasMiddleY + (m * tinggiBendaInput);
     } else if (jarakBendaInput < jarakFokusInput) {
-        koorJarakBayangan.x = CanvasMiddleX + Math.abs(si);
+        koorJarakBayangan.x = CanvasMiddleX + Math.abs(bayanganInput);
         koorJarakBayangan.y = CanvasMiddleY;
-        koorTinggiBayangan.x = CanvasMiddleX + Math.abs(si);
+        koorTinggiBayangan.x = CanvasMiddleX + Math.abs(bayanganInput);
         koorTinggiBayangan.y = CanvasMiddleY - (m * tinggiBendaInput);
     } else {
         koorJarakBayangan.x = 86456;
         koorJarakBayangan.y = CanvasMiddleY;
-        koorTinggiBayangan.x = CanvasMiddleX + Math.abs(si);
+        koorTinggiBayangan.x = CanvasMiddleX + Math.abs(bayanganInput);
         koorTinggiBayangan.y = CanvasMiddleY - (m * tinggiBendaInput);
     }
+}
+
+function Rumah(input, objectJarak, objectTinggi) {
+    // Ukuran pembesaran dari masing-masing titik
+    const incX = input / 3;
+    const incSegitiga = input / 6;
+    const incPintuX = input / 10;
+    const incPintuY = input / 3.5;
+    const incCerobong = input / 15;
+
+    // Titik Sudut 
+    const bawahKiri = { x: objectJarak.x - incX, y: CanvasMiddleY - 10 };
+    const bawahKanan = { x: objectJarak.x + incX, y: CanvasMiddleY - 10 };
+    const atasKiri = { x: objectJarak.x - incX, y: objectTinggi.y + incSegitiga + incPintuX };
+    const atasKanan = { x: objectJarak.x + incX, y: objectTinggi.y + incSegitiga + incPintuX };
+    const tinggiSegitiga = { x: objectTinggi.x, y: objectTinggi.y };
+    // Sudut Lebihan Atap Rumah
+    const lebihAtapKiri = getY(atasKiri.x, atasKiri.y, tinggiSegitiga.x, tinggiSegitiga.y, atasKiri.x - incSegitiga);
+    const lebihAtapKanan = getY(tinggiSegitiga.x, tinggiSegitiga.y, atasKanan.x, atasKanan.y, atasKanan.x + incSegitiga);
+
+    // Alas
+    garisDDA( // Kiri ke pintu
+        bawahKiri.x,
+        bawahKiri.y,
+        objectJarak.x - incPintuX,
+        bawahKanan.y,
+        "black"
+    );
+    garisDDA( // Kanan ke pintu
+        bawahKanan.x,
+        bawahKanan.y,
+        objectJarak.x + incPintuX,
+        bawahKanan.y,
+        "black"
+    );
+    garisDDA( // Kiri pintu ke atas
+        objectJarak.x - incPintuX,
+        bawahKiri.y,
+        objectJarak.x - incPintuX,
+        bawahKiri.y - incPintuY,
+        "black"
+    );
+    garisDDA( // Kanan pintu ke atas
+        objectJarak.x + incPintuX,
+        bawahKiri.y,
+        objectJarak.x + incPintuX,
+        bawahKiri.y - incPintuY,
+        "black"
+    );
+    garisDDA( // Sudut pintu ke sudut pintu
+        objectJarak.x - incPintuX,
+        bawahKiri.y - incPintuY,
+        objectJarak.x + incPintuX,
+        bawahKiri.y - incPintuY,
+        "black"
+    );
+
+    // Sisi Rumah
+    garisDDA(
+        bawahKiri.x,
+        bawahKanan.y,
+        atasKiri.x,
+        atasKanan.y,
+        "yellow"
+    );
+    garisDDA(
+        bawahKanan.x,
+        bawahKanan.y,
+        atasKanan.x,
+        atasKanan.y,
+        "yellow"
+    );
+
+    // Atap
+    garisDDA(
+        atasKiri.x - incSegitiga,
+        lebihAtapKiri,
+        tinggiSegitiga.x,
+        tinggiSegitiga.y,
+        "badBlue"
+    );
+    garisDDA(
+        atasKanan.x + incSegitiga,
+        lebihAtapKanan,
+        tinggiSegitiga.x,
+        tinggiSegitiga.y,
+        "badBlue"
+    );
+
+    // Cerobong Asap
+    garisDDA(
+        atasKiri.x + incCerobong,
+        getY(atasKiri.x, atasKiri.y, tinggiSegitiga.x, tinggiSegitiga.y, atasKiri.x + incCerobong),
+        atasKiri.x + incCerobong,
+        getY(atasKiri.x, atasKiri.y, tinggiSegitiga.x, tinggiSegitiga.y, atasKiri.x + incCerobong) - incSegitiga
+    );
+    garisDDA(
+        atasKiri.x + incSegitiga,
+        getY(atasKiri.x, atasKiri.y, tinggiSegitiga.x, tinggiSegitiga.y, atasKiri.x + incSegitiga),
+        atasKiri.x + incSegitiga,
+        getY(atasKiri.x, atasKiri.y, tinggiSegitiga.x, tinggiSegitiga.y, atasKiri.x + incCerobong) - incSegitiga
+    );
+    garisDDA(
+        atasKiri.x + incCerobong,
+        getY(atasKiri.x, atasKiri.y, tinggiSegitiga.x, tinggiSegitiga.y, atasKiri.x + incCerobong) - incSegitiga,
+        atasKiri.x + incSegitiga,
+        getY(atasKiri.x, atasKiri.y, tinggiSegitiga.x, tinggiSegitiga.y, atasKiri.x + incCerobong) - incSegitiga
+    );
+
+    // Jendela
+    garisDDA( // Sisi Kiri
+        objectJarak.x + incPintuX,
+        bawahKiri.y - 1.8 * incPintuY,
+        objectJarak.x + incPintuX,
+        bawahKiri.y - 1.8 * incPintuY - 2 * incCerobong,
+        "red"
+    );
+    garisDDA( // Sisi Kanan
+        objectJarak.x + 2 * incPintuX,
+        bawahKiri.y - 1.8 * incPintuY,
+        objectJarak.x + 2 * incPintuX,
+        bawahKiri.y - 1.8 * incPintuY - 2 * incCerobong,
+        "red"
+    );
+    garisDDA( // Sisi Bawah
+        objectJarak.x + incPintuX,
+        bawahKiri.y - 1.8 * incPintuY,
+        objectJarak.x + 2 * incPintuX,
+        bawahKiri.y - 1.8 * incPintuY,
+        "red"
+    );
+    garisDDA( // Sisi Atas
+        objectJarak.x + incPintuX,
+        bawahKiri.y - 1.8 * incPintuY - 2 * incCerobong,
+        objectJarak.x + 2 * incPintuX,
+        bawahKiri.y - 1.8 * incPintuY - 2 * incCerobong,
+        "red"
+    );
+    garisDDA( // Pembelah x
+        objectJarak.x + incPintuX,
+        bawahKiri.y - 1.8 * incPintuY - incCerobong,
+        objectJarak.x + 2 * incPintuX,
+        bawahKiri.y - 1.8 * incPintuY - incCerobong,
+        "abu"
+    );
+    garisDDA( // Pembelah y
+        objectJarak.x + 3 / 2 * incPintuX,
+        bawahKiri.y - 1.8 * incPintuY,
+        objectJarak.x + 3 / 2 * incPintuX,
+        bawahKiri.y - 1.8 * incPintuY - 2 * incCerobong,
+        "abu"
+    );
 }
 
 // Drawing
@@ -106,10 +258,14 @@ function drawPixel(x, y, colour = "black") {
         ctx.fillStyle = "green";
     } else if (colour == "badBlue") {
         ctx.fillStyle = "#00008B";
-    }else {
+    } else if (colour == "badPurple") {
+        ctx.fillStyle = "#5d2097";
+    } else if (colour == "abu") {
+        ctx.fillStyle = "#6a6868"
+    } else {
         ctx.fillStyle = "black";
     }
-    ctx.fillRect(x, y, 1.3, 1.3);
+    ctx.fillRect(x, y, 1.1, 1.1);
 }
 
 function garisDDA(x1, y1, x2, y2, colour) {
@@ -193,13 +349,24 @@ function getX(x1, y1, x2, y2, yi) {
 
 // Garis tengah canvas
 function MainCrossline() {
-    garisDDA(CanvasMiddleX, 0, CanvasMiddleX, CANVAS.height, "black");
+    // Sumbu Y
+    for (let i = 0; i <= 4; i++) {
+        garisDDA(CanvasMiddleX + i, 0, CanvasMiddleX + i, CANVAS.height, "abu");
+
+    }
+    // Sumbu x
     garisDDA(0, CanvasMiddleY, CANVAS.width, CanvasMiddleY, "black");
 }
 
 // Garis benda dan titik fokus
 function initInput() {
     refreshBayangan();
+    // Benda
+    Rumah(tinggiBendaInput, koorJarakBenda, koorTinggiBenda);
+    if (jarakBendaInput < jarakFokusInput) {
+        Rumah(tinggiBendaInput * m, koorJarakBayangan, koorTinggiBayangan);
+    }
+
     // Titik Fokus
     garisDDA(
         titikFokus.x,
@@ -230,25 +397,25 @@ function initInput() {
         titikFokus.y + 5,
         "red"
     );
-    // Benda
-    garisDDA(
+    // TItik-titik tengah benda
+    garisDash(
         koorTinggiBenda.x,
         koorTinggiBenda.y,
         koorJarakBenda.x,
         koorJarakBenda.y + 1,
-        "blue"
+        "badPurple"
     );
     // Bayangan
-    garisDDA(
+    garisDash(
         koorJarakBayangan.x,
         koorJarakBayangan.y,
         koorTinggiBayangan.x,
         koorTinggiBayangan.y,
-        "blue"
+        "badPurple"
     );
 }
 
-const cahayaMerah = (nyata) => {
+const cahayaMerah = (terbalik) => {
     garisDDA(
         getX(koorTinggiBenda.x, koorTinggiBenda.y, CanvasMiddleX, CanvasMiddleY, 0),
         0,
@@ -265,7 +432,7 @@ const cahayaMerah = (nyata) => {
         "red"
     );
     // Ruang 4
-    if (!nyata) {
+    if (!terbalik) {
         garisDash(
             CanvasMiddleX,
             CanvasMiddleY,
@@ -276,10 +443,10 @@ const cahayaMerah = (nyata) => {
     }
 }
 
-const cahayaHijau = (nyata) => {
+const cahayaHijau = (terbalik) => {
     let Xpantul = 0;
     let Ypantul = 0;
-    if (nyata) {
+    if (terbalik) {
         Xpantul = CanvasMiddleX;
         Ypantul = getY(koorTinggiBenda.x, koorTinggiBenda.y, titikFokus.x, titikFokus.y, CanvasMiddleX);
         garisDDA(
@@ -297,7 +464,7 @@ const cahayaHijau = (nyata) => {
             getY(koorTinggiBayangan.x, koorTinggiBayangan.y, Xpantul, Ypantul, 0),
             "green"
         );
-    // Ruang 4
+        // Ruang 4
     } else {
         Xpantul = CanvasMiddleX;
         Ypantul = koorTinggiBayangan.y;
@@ -325,7 +492,7 @@ const cahayaHijau = (nyata) => {
     }
 }
 
-const cahayaUngu = (nyata) => {
+const cahayaUngu = (terbalik) => {
     const Xpantul = CanvasMiddleX;
     const Ypantul = koorTinggiBenda.y;
 
@@ -345,7 +512,7 @@ const cahayaUngu = (nyata) => {
         "purple"
     );
     // Ruang 4
-    if (!nyata) {
+    if (!terbalik) {
         garisDash(
             Xpantul,
             Ypantul,
@@ -361,14 +528,14 @@ function Lingkaran(xc, yc, radius, terbalik, theta, maxTheta = Math.PI * 2) {
         while (theta <= maxTheta) {
             let xi = xc + radius * Math.cos(theta);
             let yi = yc + radius * Math.sin(theta);
-            drawPixel(xi, yi, "badBlue");
+            drawPixel(xi, yi, "blue");
             theta += 0.003;
         }
     } else {
         while (theta <= maxTheta) {
             let xi = xc + radius * Math.cos(theta);
             let yi = yc - radius * Math.sin(theta);
-            drawPixel(xi, yi, "badBlue");
+            drawPixel(xi, yi, "blue");
             theta += 0.003;
         }
     }
@@ -384,7 +551,7 @@ function cahayaDatang() {
             // Hijau
             cahayaHijau(false);
         }
-    // Ruang 4
+        // Ruang 4
     } else {
         // Merah
         cahayaMerah(true);
