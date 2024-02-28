@@ -3,90 +3,11 @@ body {
   align-items: center;
   justify-content: center;
 }
-
-.main-nav {
-  position: absolute;
-  top: 75px;
-  right: 500px;
-  width: 80px;
-  height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  transition: top 0.5s ease, left 0.5s ease, right 0.5s ease;
-}
-
-nav .nav-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: rotate(-45deg);
-}
-.nav-content .toggle-btn,
-.nav-content span a {
-  height: 60px;
-  width: 60px;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-}
-.nav-content .toggle-btn {
-  font-size: 35px;
-  color: #0e2431;
-  z-index: 100;
-  cursor: pointer;
-  transform: rotate(45deg);
-  transition: all 0.6s ease;
-}
-nav.open .toggle-btn {
-  transform: rotate(+225deg);
-}
-.nav-content span {
-  position: absolute;
-  transition: all 0.6s ease;
-  opacity: 0;
-}
-nav.open .nav-content span {
-  transform: rotate(calc(var(--i) * (360deg / 6))) translateY(120px);
-  opacity: 1;
-}
-.nav-content span a {
-  text-decoration: none;
-  transform: rotate(45deg);
-}
-.nav-content span a i {
-  font-size: 24px;
-  color: #0e2431;
-  transform: rotate(calc(var(--i) * (360deg / -8)));
-  opacity: 0.8;
-  transition: 0.2s;
-}
-.nav-content span a:hover i {
-  opacity: 1;
-}
-
-.tooltip {
-  display: none;
-  position: absolute;
-  background-color: #0e2431;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
-  z-index: 1;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  transform: translateY(-20px);
-}
 .concaveLogo {
   width: 20px;
   height: 20px;
   border: 2px solid black;
   border-radius: 50%;
-  /* Halve the circle */
   border-bottom-color: transparent;
   border-left-color: transparent;
   transform: rotate(-20deg);
@@ -121,16 +42,31 @@ nav.open .nav-content span {
 }
 
 .inputs {
+  width: 95%;
+  height: 20px;
+  padding: 0px;
+  color: azure;
   display: flex;
+  justify-content: center;
   position: absolute;
-  top: 70%;
-  left: 65%;
-  background: rgba(13, 91, 255, 0.12);
+  top: 5px;
+  background: rgba(46, 56, 64);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(2.8px);
   -webkit-backdrop-filter: blur(2.8px);
   border: 1px solid rgba(13, 91, 255, 0.22);
+}
+
+.inputs div {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  margin: 0px 10px;
+}
+
+.inputs div input {
+  margin: 0px 10px;
 }
 .judul {
   position: absolute;
@@ -140,4 +76,31 @@ nav.open .nav-content span {
 }
 .judul p {
   font-size: 30px;
+}
+
+.dock {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 10px;
+}
+
+.dock div {
+  background-color: azure;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px 10px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.75);
+  transition: font-size 0.3s ease; /* Smooth transition for font-size */
+}
+
+.dock div:hover {
+  font-size: large;
 }
