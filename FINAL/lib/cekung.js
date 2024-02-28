@@ -1,7 +1,6 @@
 export default function drawCekung() {
   let CANVAS = document.getElementById("myCanvas");
   let ctx = CANVAS.getContext("2d");
-  let imgData = ctx.createImageData(1, 1);
   let CanvasMiddleX = CANVAS.width / 2;
   let CanvasMiddleY = CANVAS.height / 2;
 
@@ -13,15 +12,15 @@ export default function drawCekung() {
   jarakBendaValue.textContent = JarakBenda.value;
   let JarakFokus = document.getElementById("jarakFokus");
   let jarakFokusValue = document.getElementById("jarakFokusValue");
-  jarakFokusValue.textContent = jarakFokus.value;
+  jarakFokusValue.textContent = JarakFokus.value;
 
   // Input
-  let tinggiBendaInput = TinggiObjek.value;
-  let jarakBendaInput = JarakBenda.value;
-  let jarakFokusInput = JarakFokus.value;
+  let tinggiBendaInput = Number(TinggiObjek.value);
+  let jarakBendaInput = Number(JarakBenda.value);
+  let jarakFokusInput = Number(JarakFokus.value);
 
   TinggiObjek.addEventListener("input", () => {
-    tinggiBendaInput = TinggiObjek.value;
+    tinggiBendaInput = Number(TinggiObjek.value);
     tinggiObjekValue.textContent = TinggiObjek.value;
     // Update
     koorTinggiBenda.y = CanvasMiddleY - tinggiBendaInput;
@@ -31,7 +30,7 @@ export default function drawCekung() {
   });
 
   JarakBenda.addEventListener("input", () => {
-    jarakBendaInput = JarakBenda.value;
+    jarakBendaInput = Number(JarakBenda.value);
     jarakBendaValue.textContent = JarakBenda.value;
     // Update
     koorTinggiBenda.x = CanvasMiddleX - jarakBendaInput;
@@ -42,7 +41,7 @@ export default function drawCekung() {
   });
 
   JarakFokus.addEventListener("input", () => {
-    jarakFokusInput = JarakFokus.value;
+    jarakFokusInput = Number(JarakFokus.value);
     jarakFokusValue.textContent = JarakFokus.value;
     // Update
     titikFokus.x = CanvasMiddleX - jarakFokusInput;
@@ -651,9 +650,9 @@ export default function drawCekung() {
       "red"
     );
     garisDDA(
-      titikFokus.x - jarakFokusInput,
+      titikFokus.x - jarakFokusInput - 1,
       titikFokus.y - 5,
-      titikFokus.x - jarakFokusInput,
+      titikFokus.x - jarakFokusInput - 1,
       titikFokus.y + 5,
       "red"
     );
