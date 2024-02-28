@@ -1,3 +1,13 @@
+const nav = document.querySelector("nav"),
+  toggleBtn = document.querySelector(".toggle-btn");
+
+const clicks = document.querySelectorAll("nav span a");
+toggleBtn.addEventListener("click", () => {
+  nav.classList.toggle("open");
+});
+
+
+
 function dragElement(elmnt) {
   var pos1 = 0,
     pos2 = 0,

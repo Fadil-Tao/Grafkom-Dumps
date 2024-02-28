@@ -6,12 +6,24 @@
     <title>Document</title>
     <link rel="stylesheet" href="./style/style.css" />
   </head>
-
   <body>
-    <div>
-      <h1 class="judul">
-        Cekung
-      </h1>
+    <nav class="main-nav" id="main-nav">
+      <div class="nav-content">
+        <div class="toggle-btn">=</div>
+        <span style="--i: 1">
+          <div id="cekungButton"><div class="concaveLogo"></div></div>
+          <span class="tooltip">Cekung</span>
+        </span>
+        <span style="--i: 2">
+          <div id="cembungButton"><div class="convexLogo"></div></div>
+          <span class="tooltip">Cembung</span>
+        </span>
+      </div>
+    </nav>
+    <div class="judul">
+      <h1>Selamat Datang!</h1>
+      <p>Pilih Sebuah Lensa</p>
+      <p>====></p>
     </div>
     <div class="inputs" id="inputUi">
       <div class="tinggiObjek">
@@ -51,7 +63,7 @@
       </div>
     </div>
     <canvas id="myCanvas" width="1800" height="900"></canvas>
-    <script src="./script/script.js"></script>
+    <script type="module" src="./script/script.js"></script>
     <script src="./script/Ui.js"></script>
   </body>
 </html>
