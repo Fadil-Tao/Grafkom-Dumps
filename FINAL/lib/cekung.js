@@ -21,7 +21,7 @@ export default function drawCekung() {
 
   TinggiObjek.addEventListener("input", () => {
     tinggiBendaInput = Number(TinggiObjek.value);
-    tinggiObjekValue.textContent = TinggiObjek.value;
+    tinggiObjekValue.textContent = `${TinggiObjek.value} px`;
     // Update
     koorTinggiBenda.y = CanvasMiddleY - tinggiBendaInput;
 
@@ -31,7 +31,7 @@ export default function drawCekung() {
 
   JarakBenda.addEventListener("input", () => {
     jarakBendaInput = Number(JarakBenda.value);
-    jarakBendaValue.textContent = JarakBenda.value;
+    jarakBendaValue.textContent = `${JarakBenda.value} px`;
     // Update
     koorTinggiBenda.x = CanvasMiddleX - jarakBendaInput;
     koorJarakBenda.x = CanvasMiddleX - jarakBendaInput;
@@ -42,7 +42,7 @@ export default function drawCekung() {
 
   JarakFokus.addEventListener("input", () => {
     jarakFokusInput = Number(JarakFokus.value);
-    jarakFokusValue.textContent = JarakFokus.value;
+    jarakFokusValue.textContent = `${JarakFokus.value} px`;
     // Update
     titikFokus.x = CanvasMiddleX - jarakFokusInput;
 
@@ -623,7 +623,11 @@ export default function drawCekung() {
     if (jarakBendaInput < jarakFokusInput) {
       Rumah(tinggiBendaInput * m, koorJarakBayangan, koorTinggiBayangan);
     } else {
-      RumahTerbalik(tinggiBendaInput * m, koorJarakBayangan, koorTinggiBayangan);
+      RumahTerbalik(
+        tinggiBendaInput * m,
+        koorJarakBayangan,
+        koorTinggiBayangan
+      );
     }
 
     // Titik Fokus
