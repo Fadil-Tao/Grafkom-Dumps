@@ -12,7 +12,6 @@ function dragElement(elmnt) {
     // get the mouse cursor position at startup:
     pos3 = e.clientX;
     pos4 = e.clientY;
-    console.log(pos4);
     document.onmouseup = closeDragElement;
     // call a function whenever the cursor moves:
     document.onmousemove = elementDrag;
@@ -35,6 +34,14 @@ function dragElement(elmnt) {
     document.onmouseup = null;
     document.onmousemove = null;
   }
+  const inputs = document.querySelectorAll(".inputs input");
+
+  // Loop through each input and add an event listener to stop event propagation
+  inputs.forEach((input) => {
+    input.addEventListener("mousedown", function (e) {
+      e.stopPropagation(); // Stop the propagation of the mousedown event
+    });
+  });
 }
 
 const inputUi = document.getElementById("inputUi");
