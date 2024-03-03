@@ -1,13 +1,3 @@
-const nav = document.querySelector("nav"),
-  toggleBtn = document.querySelector(".toggle-btn");
-
-const clicks = document.querySelectorAll("nav span a");
-toggleBtn.addEventListener("click", () => {
-  nav.classList.toggle("open");
-});
-
-
-
 function dragElement(elmnt) {
   var pos1 = 0,
     pos2 = 0,
@@ -39,13 +29,11 @@ function dragElement(elmnt) {
     elmnt.style.top = elmnt.offsetTop - pos2 + "px";
     elmnt.style.left = elmnt.offsetLeft - pos1 + "px";
   }
-
   function closeDragElement() {
     /* stop moving when mouse button is released:*/
     document.onmouseup = null;
     document.onmousemove = null;
   }
-  // Select all input elements within the ".inputs" container
   const inputs = document.querySelectorAll(".inputs input");
 
   // Loop through each input and add an event listener to stop event propagation
