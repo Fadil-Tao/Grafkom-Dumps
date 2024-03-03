@@ -457,14 +457,6 @@ export default function drawCembung() {
         Ypantul,
         "green"
       );
-      // Pantulan
-      garisDDA(
-        Xpantul,
-        Ypantul,
-        0,
-        getY(koorTinggiBayangan.x, koorTinggiBayangan.y, Xpantul, Ypantul, 0),
-        "green"
-      );
       garisDash(
         Xpantul,
         Ypantul,
