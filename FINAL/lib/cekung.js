@@ -24,8 +24,6 @@ export default function drawCekung() {
     tinggiObjekValue.textContent = TinggiObjek.value;
     // Update
     koorTinggiBenda.y = CanvasMiddleY - tinggiBendaInput;
-
-    refreshBayangan();
     refreshDraw();
   });
 
@@ -35,8 +33,6 @@ export default function drawCekung() {
     // Update
     koorTinggiBenda.x = CanvasMiddleX - jarakBendaInput;
     koorJarakBenda.x = CanvasMiddleX - jarakBendaInput;
-
-    refreshBayangan();
     refreshDraw();
   });
 
@@ -45,8 +41,6 @@ export default function drawCekung() {
     jarakFokusValue.textContent = JarakFokus.value;
     // Update
     titikFokus.x = CanvasMiddleX - jarakFokusInput;
-
-    refreshBayangan();
     refreshDraw();
   });
 
@@ -846,6 +840,7 @@ export default function drawCekung() {
 
   function refreshDraw() {
     ctx.clearRect(0, 0, CANVAS.width, CANVAS.height);
+    refreshBayangan();
     MainCrossline();
     initInput();
     cahayaDatang();

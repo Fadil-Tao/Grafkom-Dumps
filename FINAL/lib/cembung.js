@@ -14,17 +14,11 @@ export default function drawCembung() {
   let jarakFokusValue = document.getElementById("jarakFokusValue");
   jarakFokusValue.textContent = JarakFokus.value;
 
-  // Input
-  let tinggiBendaInput = Number(TinggiObjek.value);
-  let jarakBendaInput = Number(JarakBenda.value);
-  let jarakFokusInput = Number(JarakFokus.value);
-
   TinggiObjek.addEventListener("input", () => {
     tinggiBendaInput = Number(TinggiObjek.value);
     tinggiObjekValue.textContent = TinggiObjek.value;
     // Update
     koorTinggiBenda.y = CanvasMiddleY - tinggiBendaInput;
-
     refreshDraw();
   });
 
@@ -34,7 +28,6 @@ export default function drawCembung() {
     // Update
     koorTinggiBenda.x = CanvasMiddleX - jarakBendaInput;
     koorJarakBenda.x = CanvasMiddleX - jarakBendaInput;
-
     refreshDraw();
   });
 
@@ -43,9 +36,30 @@ export default function drawCembung() {
     jarakFokusValue.textContent = JarakFokus.value;
     // Update
     titikFokus.x = CanvasMiddleX + jarakFokusInput;
-
     refreshDraw();
   });
+
+  // Input
+  let tinggiBendaInput = Number(TinggiObjek.value);
+  let jarakBendaInput = Number(JarakBenda.value);
+  let jarakFokusInput = Number(JarakFokus.value);
+
+  // Real Bayangan
+  const koorTinggiBayangan = {};
+  const koorJarakBayangan = {};
+  let bayanganInputX = 0;
+  let m = 0;
+
+  function refreshBayangan() {
+    if (jarakFokusInput != jarakBendaInput) {
+      bayanganInputX = 1 / (-1 / jarakFokusInput - 1 / jarakBendaInput);
+      m = Math.abs(bayanganInputX / jarakBendaInput);
+    }
+    koorJarakBayangan.x = CanvasMiddleX + jarakBendaInput * m;
+    koorJarakBayangan.y = CanvasMiddleY;
+    koorTinggiBayangan.x = CanvasMiddleX + jarakBendaInput * m;
+    koorTinggiBayangan.y = CanvasMiddleY - m * tinggiBendaInput;
+  }
 
   // Real Input Kordinat
   const titikFokus = {
@@ -376,9 +390,132 @@ export default function drawCembung() {
     );
   }
 
+  const cahayaMerah = (terbalik) => {
+    garisDDA(
+      getX(
+        koorTinggiBenda.x,
+        koorTinggiBenda.y,
+        CanvasMiddleX,
+        CanvasMiddleY,
+        0
+      ),
+      0,
+      CanvasMiddleX,
+      CanvasMiddleY,
+      "red"
+    );
+    // Pantulan
+    garisDDA(
+      CanvasMiddleX,
+      CanvasMiddleY,
+      0,
+      getY(
+        koorTinggiBayangan.x,
+        koorTinggiBayangan.y,
+        CanvasMiddleX,
+        CanvasMiddleY,
+        0
+      ),
+      "red"
+    );
+    garisDash(
+      CanvasMiddleX,
+      CanvasMiddleY,
+      getX(
+        koorTinggiBayangan.x,
+        koorTinggiBayangan.y,
+        CanvasMiddleX,
+        CanvasMiddleY,
+        0
+      ),
+      0,
+      "red"
+    );
+  };
+
+  const cahayaHijau = () => {
+    let Xpantul = 0;
+    let Ypantul = 0;
+      Xpantul = CanvasMiddleX;
+      Ypantul = getY(
+        koorTinggiBenda.x,
+        koorTinggiBenda.y,
+        titikFokus.x,
+        titikFokus.y,
+        CanvasMiddleX
+      );
+      garisDDA(
+        getX(
+          koorTinggiBenda.x,
+          koorTinggiBenda.y,
+          titikFokus.x,
+          titikFokus.y,
+          0
+        ),
+        0,
+        Xpantul,
+        Ypantul,
+        "green"
+      );
+      // Pantulan
+      garisDDA(
+        Xpantul,
+        Ypantul,
+        0,
+        getY(koorTinggiBayangan.x, koorTinggiBayangan.y, Xpantul, Ypantul, 0),
+        "green"
+      );
+      garisDash(
+        Xpantul,
+        Ypantul,
+        CanvasMiddleX * 2,
+        koorTinggiBayangan.y,
+        "green"
+      );
+  };
+
+  const cahayaUngu = () => {
+    const Xpantul = CanvasMiddleX;
+    const Ypantul = koorTinggiBenda.y;
+
+    garisDDA(0, koorTinggiBenda.y, Xpantul, Ypantul, "purple");
+    // Pantulan
+    garisDash(
+      Xpantul,
+      Ypantul,
+      getX(
+        Xpantul,
+        Ypantul,
+        koorTinggiBayangan.x,
+        koorTinggiBayangan.y,
+        CANVAS.height
+      ),
+      CANVAS.height,
+      "purple"
+    );
+    garisDDA(
+      Xpantul,
+      Ypantul,
+      getX(koorTinggiBayangan.x, koorTinggiBayangan.y, Xpantul, Ypantul, 0),
+      0,
+      "purple"
+    );
+  };
+
+  function cahayaDatang() {
+    // Merah
+    cahayaMerah();
+    // Hijau
+    cahayaHijau();
+    // Oranye
+    cahayaUngu();
+  }
+
   function initInput() {
     // Gambar Benda
     Rumah(tinggiBendaInput, koorJarakBenda, koorTinggiBenda);
+    // Gambar Bayangan
+    Rumah(tinggiBendaInput * m, koorJarakBayangan, koorTinggiBayangan);
 
     // Titik Fokus
     garisDDA(
@@ -418,12 +555,22 @@ export default function drawCembung() {
       koorJarakBenda.y + 1,
       "badPurple"
     );
+    // Titik-titik tengah bayangan
+    garisDash(
+      koorJarakBayangan.x,
+      koorJarakBayangan.y,
+      koorTinggiBayangan.x,
+      koorTinggiBayangan.y,
+      "badPurple"
+    );
   }
 
   function refreshDraw() {
     ctx.clearRect(0, 0, CANVAS.width, CANVAS.height);
+    refreshBayangan();
     MainCrossline();
     initInput();
+    cahayaDatang();
   }
 
   // Initiate
