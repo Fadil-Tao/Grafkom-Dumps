@@ -64,6 +64,11 @@ export default function drawCekung() {
   let bayanganInput = 0;
   let m = 0;
 
+    // Fungsi untuk mengambil beberapa nilai dibelakang koma
+    function truncate(num, places) {
+      return Math.trunc(num * Math.pow(10, places)) / Math.pow(10, places);
+    }
+
   function refreshBayangan() {
     if (jarakFokusInput != jarakBendaInput) {
       bayanganInput = 1 / (1 / jarakFokusInput - 1 / jarakBendaInput);
@@ -806,14 +811,14 @@ export default function drawCekung() {
 
   function Lingkaran(xc, yc, radius, terbalik, theta, maxTheta = Math.PI * 2) {
     if (!terbalik) {
-      while (theta <= maxTheta) {
+      while (truncate(theta, 3) <= maxTheta) {
         let xi = xc + radius * Math.cos(theta);
         let yi = yc + radius * Math.sin(theta);
         drawPixel(xi, yi, "blue");
         theta += 0.003;
       }
     } else {
-      while (theta <= maxTheta) {
+      while (truncate(theta, 3) <= maxTheta) {
         let xi = xc + radius * Math.cos(theta);
         let yi = yc - radius * Math.sin(theta);
         drawPixel(xi, yi, "blue");

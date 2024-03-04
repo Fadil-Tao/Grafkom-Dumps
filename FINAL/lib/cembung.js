@@ -75,6 +75,15 @@ export default function drawCembung() {
     y: CanvasMiddleY,
   };
 
+  // Dapat Nilai Ujung Cermin
+  let cerminTop = { x: 0, y: 0 };
+  let cerminBot = { x: 0, y: 0 };
+
+  // Fungsi untuk mengambil beberapa nilai dibelakang koma
+  function truncate(num, places) {
+    return Math.trunc(num * Math.pow(10, places)) / Math.pow(10, places);
+  }
+
   // Drawing
   function drawPixel(x, y, colour = "black") {
     if (colour == "blue") {
@@ -434,43 +443,57 @@ export default function drawCembung() {
   };
 
   const cahayaHijau = () => {
-    let Xpantul = 0;
-    let Ypantul = 0;
-      Xpantul = CanvasMiddleX;
-      Ypantul = getY(
-        koorTinggiBenda.x,
-        koorTinggiBenda.y,
-        titikFokus.x,
-        titikFokus.y,
-        CanvasMiddleX
-      );
-      garisDDA(
-        getX(
-          koorTinggiBenda.x,
-          koorTinggiBenda.y,
-          titikFokus.x,
-          titikFokus.y,
-          0
-        ),
-        0,
-        Xpantul,
-        Ypantul,
-        "green"
-      );
-      garisDash(
-        Xpantul,
-        Ypantul,
-        CanvasMiddleX * 2,
+    let Xpantul = cerminBot.x;
+    let Ypantul = cerminBot.y;
+    garisDDA(
+      getX(koorTinggiBenda.x, koorTinggiBenda.y, Xpantul, Ypantul, 0),
+      0,
+      Xpantul,
+      Ypantul,
+      "green"
+    );
+    garisDDA(
+      Xpantul,
+      Ypantul,
+      getX(
+        koorTinggiBayangan.x,
         koorTinggiBayangan.y,
-        "green"
-      );
+        Xpantul,
+        Ypantul,
+        CANVAS.height
+      ),
+      CANVAS.height,
+      "green"
+    );
+    garisDash(
+      Xpantul,
+      Ypantul,
+      getX(Xpantul, Ypantul, koorTinggiBayangan.x, koorTinggiBayangan.y, 0),
+      0,
+      "green"
+    );
   };
 
   const cahayaUngu = () => {
-    const Xpantul = CanvasMiddleX;
-    const Ypantul = koorTinggiBenda.y;
+    const Xpantul = cerminTop.x;
+    const Ypantul = cerminTop.y;
 
-    garisDDA(0, koorTinggiBenda.y, Xpantul, Ypantul, "purple");
+    garisDDA(
+      0,
+      getY(Xpantul, Ypantul, koorTinggiBenda.x, koorTinggiBenda.y, 0),
+      Xpantul,
+      Ypantul,
+      "purple"
+    );
+
+    garisDDA(
+      Xpantul,
+      Ypantul,
+      getX(Xpantul, Ypantul, koorTinggiBayangan.x, koorTinggiBayangan.y, 0),
+      0,
+      "purple"
+    );
+
     // Pantulan
     garisDash(
       Xpantul,
@@ -483,13 +506,6 @@ export default function drawCembung() {
         CANVAS.height
       ),
       CANVAS.height,
-      "purple"
-    );
-    garisDDA(
-      Xpantul,
-      Ypantul,
-      getX(koorTinggiBayangan.x, koorTinggiBayangan.y, Xpantul, Ypantul, 0),
-      0,
       "purple"
     );
   };
@@ -508,7 +524,24 @@ export default function drawCembung() {
     Rumah(tinggiBendaInput, koorJarakBenda, koorTinggiBenda);
     // Gambar Bayangan
     Rumah(tinggiBendaInput * m, koorJarakBayangan, koorTinggiBayangan);
-
+    // Cermin tengah keatas
+    Lingkaran(
+      CanvasMiddleX + jarakFokusInput * 2,
+      CanvasMiddleY,
+      jarakFokusInput * 2,
+      false,
+      0,
+      0.6
+    );
+    // Cermin tengah kebawah
+    Lingkaran(
+      CanvasMiddleX + jarakFokusInput * 2,
+      CanvasMiddleY,
+      jarakFokusInput * 2,
+      true,
+      0,
+      0.6
+    );
     // Titik Fokus
     garisDDA(
       titikFokus.x,
@@ -555,6 +588,38 @@ export default function drawCembung() {
       koorTinggiBayangan.y,
       "badPurple"
     );
+  }
+
+  function Lingkaran(xc, yc, radius, terbalik, theta, maxTheta = Math.PI * 2) {
+    if (!terbalik) {
+      // tengah keatas
+      while (truncate(theta, 3) <= maxTheta) {
+        let xi = xc - radius * Math.cos(theta);
+        let yi = yc - radius * Math.sin(theta);
+
+        if (truncate(theta, 3) == maxTheta) {
+          cerminTop.x = xi;
+          cerminTop.y = yi;
+        }
+
+        drawPixel(xi, yi, "blue");
+        theta += 0.003;
+      }
+    } else {
+      // tengah kebawah
+      while (truncate(theta, 3) <= maxTheta) {
+        let xi = xc - radius * Math.cos(theta);
+        let yi = yc + radius * Math.sin(theta);
+
+        if (truncate(theta, 3) == maxTheta) {
+          cerminBot.x = xi;
+          cerminBot.y = yi;
+        }
+
+        drawPixel(xi, yi, "blue");
+        theta += 0.003;
+      }
+    }
   }
 
   function refreshDraw() {
