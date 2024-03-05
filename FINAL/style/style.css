@@ -104,3 +104,14 @@ body {
 .dock div:hover {
   font-size: large;
 }
+
+.objectSelect {
+  background-color: transparent;
+  color: white;
+  border: none;
+}
+
+.objectSelect option {
+  background-color: rgba(46, 56, 64);
+  border: none;
+}

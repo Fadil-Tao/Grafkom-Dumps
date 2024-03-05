@@ -35,7 +35,11 @@ function dragElement(elmnt) {
     document.onmousemove = null;
   }
   const inputs = document.querySelectorAll(".inputs input");
+  const select = document.getElementById("gantiObjek");
 
+  select.addEventListener("mousedown", function (e) {
+    e.stopPropagation();
+  });
   // Loop through each input and add an event listener to stop event propagation
   inputs.forEach((input) => {
     input.addEventListener("mousedown", function (e) {

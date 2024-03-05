@@ -399,7 +399,7 @@ export default function drawCekung() {
       "abu"
     );
   }
-
+  // Call the Gelas function to draw the glass
   function RumahTerbalik(input, objectJarak, objectTinggi) {
     // Ukuran pembesaran dari masing-masing titik
     const incX = input / 3;
