@@ -14,17 +14,11 @@ export default function drawCembung() {
   let jarakFokusValue = document.getElementById("jarakFokusValue");
   jarakFokusValue.textContent = JarakFokus.value;
 
-  // Input
-  let tinggiBendaInput = Number(TinggiObjek.value);
-  let jarakBendaInput = Number(JarakBenda.value);
-  let jarakFokusInput = Number(JarakFokus.value);
-
   TinggiObjek.addEventListener("input", () => {
     tinggiBendaInput = Number(TinggiObjek.value);
     tinggiObjekValue.textContent = TinggiObjek.value;
     // Update
     koorTinggiBenda.y = CanvasMiddleY - tinggiBendaInput;
-
     refreshDraw();
   });
 
@@ -34,7 +28,6 @@ export default function drawCembung() {
     // Update
     koorTinggiBenda.x = CanvasMiddleX - jarakBendaInput;
     koorJarakBenda.x = CanvasMiddleX - jarakBendaInput;
-
     refreshDraw();
   });
 
@@ -43,9 +36,30 @@ export default function drawCembung() {
     jarakFokusValue.textContent = JarakFokus.value;
     // Update
     titikFokus.x = CanvasMiddleX + jarakFokusInput;
-
     refreshDraw();
   });
+
+  // Input
+  let tinggiBendaInput = Number(TinggiObjek.value);
+  let jarakBendaInput = Number(JarakBenda.value);
+  let jarakFokusInput = Number(JarakFokus.value);
+
+  // Real Bayangan
+  const koorTinggiBayangan = {};
+  const koorJarakBayangan = {};
+  let bayanganInputX = 0;
+  let m = 0;
+
+  function refreshBayangan() {
+    if (jarakFokusInput != jarakBendaInput) {
+      bayanganInputX = 1 / (-1 / jarakFokusInput - 1 / jarakBendaInput);
+      m = Math.abs(bayanganInputX / jarakBendaInput);
+    }
+    koorJarakBayangan.x = CanvasMiddleX + jarakBendaInput * m;
+    koorJarakBayangan.y = CanvasMiddleY;
+    koorTinggiBayangan.x = CanvasMiddleX + jarakBendaInput * m;
+    koorTinggiBayangan.y = CanvasMiddleY - m * tinggiBendaInput;
+  }
 
   // Real Input Kordinat
   const titikFokus = {
@@ -60,6 +74,15 @@ export default function drawCembung() {
     x: CanvasMiddleX - jarakBendaInput,
     y: CanvasMiddleY,
   };
+
+  // Dapat Nilai Ujung Cermin
+  let cerminTop = { x: 0, y: 0 };
+  let cerminBot = { x: 0, y: 0 };
+
+  // Fungsi untuk mengambil beberapa nilai dibelakang koma
+  function truncate(num, places) {
+    return Math.trunc(num * Math.pow(10, places)) / Math.pow(10, places);
+  }
 
   // Drawing
   function drawPixel(x, y, colour = "black") {
@@ -376,10 +399,149 @@ export default function drawCembung() {
     );
   }
 
+  const cahayaMerah = (terbalik) => {
+    garisDDA(
+      getX(
+        koorTinggiBenda.x,
+        koorTinggiBenda.y,
+        CanvasMiddleX,
+        CanvasMiddleY,
+        0
+      ),
+      0,
+      CanvasMiddleX,
+      CanvasMiddleY,
+      "red"
+    );
+    // Pantulan
+    garisDDA(
+      CanvasMiddleX,
+      CanvasMiddleY,
+      0,
+      getY(
+        koorTinggiBayangan.x,
+        koorTinggiBayangan.y,
+        CanvasMiddleX,
+        CanvasMiddleY,
+        0
+      ),
+      "red"
+    );
+    garisDash(
+      CanvasMiddleX,
+      CanvasMiddleY,
+      getX(
+        koorTinggiBayangan.x,
+        koorTinggiBayangan.y,
+        CanvasMiddleX,
+        CanvasMiddleY,
+        0
+      ),
+      0,
+      "red"
+    );
+  };
+
+  const cahayaHijau = () => {
+    let Xpantul = cerminBot.x;
+    let Ypantul = cerminBot.y;
+    garisDDA(
+      getX(koorTinggiBenda.x, koorTinggiBenda.y, Xpantul, Ypantul, 0),
+      0,
+      Xpantul,
+      Ypantul,
+      "green"
+    );
+    garisDDA(
+      Xpantul,
+      Ypantul,
+      getX(
+        koorTinggiBayangan.x,
+        koorTinggiBayangan.y,
+        Xpantul,
+        Ypantul,
+        CANVAS.height
+      ),
+      CANVAS.height,
+      "green"
+    );
+    garisDash(
+      Xpantul,
+      Ypantul,
+      getX(Xpantul, Ypantul, koorTinggiBayangan.x, koorTinggiBayangan.y, 0),
+      0,
+      "green"
+    );
+  };
+
+  const cahayaUngu = () => {
+    const Xpantul = cerminTop.x;
+    const Ypantul = cerminTop.y;
+
+    garisDDA(
+      0,
+      getY(Xpantul, Ypantul, koorTinggiBenda.x, koorTinggiBenda.y, 0),
+      Xpantul,
+      Ypantul,
+      "purple"
+    );
+
+    garisDDA(
+      Xpantul,
+      Ypantul,
+      getX(Xpantul, Ypantul, koorTinggiBayangan.x, koorTinggiBayangan.y, 0),
+      0,
+      "purple"
+    );
+
+    // Pantulan
+    garisDash(
+      Xpantul,
+      Ypantul,
+      getX(
+        Xpantul,
+        Ypantul,
+        koorTinggiBayangan.x,
+        koorTinggiBayangan.y,
+        CANVAS.height
+      ),
+      CANVAS.height,
+      "purple"
+    );
+  };
+
+  function cahayaDatang() {
+    // Merah
+    cahayaMerah();
+    // Hijau
+    cahayaHijau();
+    // Oranye
+    cahayaUngu();
+  }
+
   function initInput() {
     // Gambar Benda
     Rumah(tinggiBendaInput, koorJarakBenda, koorTinggiBenda);
-
+    // Gambar Bayangan
+    Rumah(tinggiBendaInput * m, koorJarakBayangan, koorTinggiBayangan);
+    // Cermin tengah keatas
+    Lingkaran(
+      CanvasMiddleX + jarakFokusInput * 2,
+      CanvasMiddleY,
+      jarakFokusInput * 2,
+      false,
+      0,
+      0.6
+    );
+    // Cermin tengah kebawah
+    Lingkaran(
+      CanvasMiddleX + jarakFokusInput * 2,
+      CanvasMiddleY,
+      jarakFokusInput * 2,
+      true,
+      0,
+      0.6
+    );
     // Titik Fokus
     garisDDA(
       titikFokus.x,
@@ -418,12 +580,54 @@ export default function drawCembung() {
       koorJarakBenda.y + 1,
       "badPurple"
     );
+    // Titik-titik tengah bayangan
+    garisDash(
+      koorJarakBayangan.x,
+      koorJarakBayangan.y,
+      koorTinggiBayangan.x,
+      koorTinggiBayangan.y,
+      "badPurple"
+    );
+  }
+
+  function Lingkaran(xc, yc, radius, terbalik, theta, maxTheta = Math.PI * 2) {
+    if (!terbalik) {
+      // tengah keatas
+      while (truncate(theta, 3) <= maxTheta) {
+        let xi = xc - radius * Math.cos(theta);
+        let yi = yc - radius * Math.sin(theta);
+
+        if (truncate(theta, 3) == maxTheta) {
+          cerminTop.x = xi;
+          cerminTop.y = yi;
+        }
+
+        drawPixel(xi, yi, "blue");
+        theta += 0.003;
+      }
+    } else {
+      // tengah kebawah
+      while (truncate(theta, 3) <= maxTheta) {
+        let xi = xc - radius * Math.cos(theta);
+        let yi = yc + radius * Math.sin(theta);
+
+        if (truncate(theta, 3) == maxTheta) {
+          cerminBot.x = xi;
+          cerminBot.y = yi;
+        }
+
+        drawPixel(xi, yi, "blue");
+        theta += 0.003;
+      }
+    }
   }
 
   function refreshDraw() {
     ctx.clearRect(0, 0, CANVAS.width, CANVAS.height);
+    refreshBayangan();
     MainCrossline();
     initInput();
+    cahayaDatang();
   }
 
   // Initiate

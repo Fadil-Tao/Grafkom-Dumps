@@ -24,8 +24,6 @@ export default function drawCekung() {
     tinggiObjekValue.textContent = `${TinggiObjek.value} px`;
     // Update
     koorTinggiBenda.y = CanvasMiddleY - tinggiBendaInput;
-
-    refreshBayangan();
     refreshDraw();
   });
 
@@ -35,8 +33,6 @@ export default function drawCekung() {
     // Update
     koorTinggiBenda.x = CanvasMiddleX - jarakBendaInput;
     koorJarakBenda.x = CanvasMiddleX - jarakBendaInput;
-
-    refreshBayangan();
     refreshDraw();
   });
 
@@ -45,8 +41,6 @@ export default function drawCekung() {
     jarakFokusValue.textContent = `${JarakFokus.value} px`;
     // Update
     titikFokus.x = CanvasMiddleX - jarakFokusInput;
-
-    refreshBayangan();
     refreshDraw();
   });
 
@@ -69,6 +63,11 @@ export default function drawCekung() {
   const koorJarakBayangan = {};
   let bayanganInput = 0;
   let m = 0;
+
+    // Fungsi untuk mengambil beberapa nilai dibelakang koma
+    function truncate(num, places) {
+      return Math.trunc(num * Math.pow(10, places)) / Math.pow(10, places);
+    }
 
   function refreshBayangan() {
     if (jarakFokusInput != jarakBendaInput) {
@@ -812,14 +811,14 @@ export default function drawCekung() {
 
   function Lingkaran(xc, yc, radius, terbalik, theta, maxTheta = Math.PI * 2) {
     if (!terbalik) {
-      while (theta <= maxTheta) {
+      while (truncate(theta, 3) <= maxTheta) {
         let xi = xc + radius * Math.cos(theta);
         let yi = yc + radius * Math.sin(theta);
         drawPixel(xi, yi, "blue");
         theta += 0.003;
       }
     } else {
-      while (theta <= maxTheta) {
+      while (truncate(theta, 3) <= maxTheta) {
         let xi = xc + radius * Math.cos(theta);
         let yi = yc - radius * Math.sin(theta);
         drawPixel(xi, yi, "blue");
@@ -850,6 +849,7 @@ export default function drawCekung() {
 
   function refreshDraw() {
     ctx.clearRect(0, 0, CANVAS.width, CANVAS.height);
+    refreshBayangan();
     MainCrossline();
     initInput();
     cahayaDatang();
