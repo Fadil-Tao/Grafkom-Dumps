@@ -2,6 +2,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family:monospace;
 }
 .concaveLogo {
   width: 20px;
@@ -37,7 +38,7 @@ body {
   background: #ffffff;
   background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0.1em, transparent 0.1em),
     linear-gradient(90deg, rgba(0, 0, 0, 0.1) 0.1em, transparent 0.1em);
-  background-size: 4.4em 4.39em;
+  background-size: 4.39em 4.20em;
 }
 
 .inputs {

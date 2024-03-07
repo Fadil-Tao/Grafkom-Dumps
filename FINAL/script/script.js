@@ -16,14 +16,14 @@ canvas.width = screen.width;
 canvas.height = screen.height;
 
 cekungButton.addEventListener("click", () => {
-  changeTitle("cekung");
+  changeTitle("Cekung");
   removeImage();
   context.clearRect(0, 0, canvas.width, canvas.height);
   drawCekung();
 });
 cembungButton.addEventListener("click", () => {
   context.clearRect(0, 0, canvas.width, canvas.height);
-  changeTitle("cembung");
+  changeTitle("Cembung");
   removeImage();
   drawCembung();
 });
