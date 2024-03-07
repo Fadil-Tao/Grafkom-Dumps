@@ -8,58 +8,83 @@
   </head>
   <body>
     <div class="inputs" id="inputUi">
-      <div>
-        <select name="" id="gantiObjek" class="objectSelect">
-          <option value="">Rumah</option>
-          <option value="">Gelas</option>
-          <option value="">Motor</option>
-        </select>
+      <div class="toggleContainer">
+        <button id="toggleHideOpen" onclick="toggleMenu()">x</button>
       </div>
-      <div><p id="lensName">Belum Dipilih</p></div>
-      <div class="tinggiObjek">
-        <label for="tinggiObjek">Tinggi Objek</label>
-        <input
-          type="range"
-          name="tinggiObjek"
-          id="tinggiObjek"
-          min="30"
-          max="250"
-        />
-        <p id="tinggiObjekValue">xx <span>px</span></p>
-      </div>
-      <div class="jarakBenda">
-        <label for="jarakBenda">Jarak Benda</label>
-        <input
-          type="range"
-          name="jarakBenda"
-          id="jarakBenda"
-          min="105"
-          max="700"
-        />
-        <p id="jarakBendaValue">xx <span>px</span></p>
-      </div>
-      <div class="jarakFokus">
-        <label for="jarakFokus">Jarak Fokus</label>
-        <input
-          type="range"
-          name="jarakFokus"
-          id="jarakFokus"
-          min="100"
-          max="350"
-        />
-        <p id="jarakFokusValue">xx <span>px</span></p>
+      <div class="inputsContainer" id="inputsContainer">
+        <div>
+          <select name="" id="gantiObjek" class="objectSelect">
+            <option value="">Rumah</option>
+            <option value="">Gelas</option>
+          </select>
+        </div>
+        <div><p id="lensName">Belum Dipilih</p></div>
+        <div class="tinggiObjek">
+          <label for="tinggiObjek">Tinggi Objek</label>
+          <input
+            type="range"
+            name="tinggiObjek"
+            id="tinggiObjek"
+            min="30"
+            max="250"
+          />
+          <p id="tinggiObjekValue">xx <span>px</span></p>
+        </div>
+        <div class="jarakBenda">
+          <label for="jarakBenda">Jarak Benda</label>
+          <input
+            type="range"
+            name="jarakBenda"
+            id="jarakBenda"
+            min="105"
+            max="700"
+          />
+          <p id="jarakBendaValue">xx <span>px</span></p>
+        </div>
+        <div class="jarakFokus">
+          <label for="jarakFokus">Jarak Fokus</label>
+          <input
+            type="range"
+            name="jarakFokus"
+            id="jarakFokus"
+            min="100"
+            max="350"
+          />
+          <p id="jarakFokusValue">xx <span>px</span></p>
+        </div>
       </div>
     </div>
     <div class="judul">
       <h1>Selamat Datang!</h1>
-      <p>Pilih Sebuah Lensa</p>
+      <p>Pilih Sebuah Simulasi</p>
+    </div>
+    <div class="MenuWithPicture" id="MenuWithPicture">
+      <div class="imageContainer">
+        <img
+          src="./assets/cekung.png"
+          alt="Gambar Cekung"
+          onmouseover="hover(this,'./assets/CekungOnHover.png')"
+          onmouseout="unhover(this,'./assets/cekung.png')"
+        />
+      </div>
+      <div class="imageContainer">
+        <img
+          src="./assets/cembung.png"
+          alt="Gambar Cekung"
+          onmouseover="hover(this,'./assets/CembungOnHover.png')"
+          onmouseout="unhover(this,'./assets/cembung.png')"
+        />
+      </div>
+      <div class="imageContainer">
+        <img src="./assets/threeDimension.png" alt="" />
+      </div>
     </div>
     <div class="dock">
       <div id="cekungButton">Cekung</div>
       <div id="cembungButton">Cembung</div>
       <div>Sesuatu</div>
     </div>
-    <canvas id="myCanvas" width="1800" height="900"></canvas>
+    <canvas id="myCanvas"></canvas>
     <script type="module" src="./script/script.js"></script>
     <script src="./script/Ui.js"></script>
   </body>
